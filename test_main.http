@@ -1,11 +1,101 @@
-# Test your FastAPI endpoints
+# Alpha Desk AI Server — API Test Examples
+# JetBrains HTTP Client format
+# Server: http://127.0.0.1:33333
 
-GET http://127.0.0.1:8000/
+### ───────────────────────────────────────
+### Health Check
+### ───────────────────────────────────────
+
+GET http://127.0.0.1:33333/
+Accept: application/json
+
+# Expected Response 200 OK
+# {
+#   "message": "Hello World"
+# }
+
+###
+
+### ───────────────────────────────────────
+### News Search
+### GET /news/search
+### ───────────────────────────────────────
+
+GET http://127.0.0.1:33333/news/search?keyword=AI반도체&page=1&page_size=5
+Accept: application/json
+
+# Expected Response 200 OK
+# {
+#   "items": [
+#     {
+#       "title": "삼성전자, AI 반도체 신제품 발표",
+#       "snippet": "삼성전자가 차세대 AI 반도체를 공개했다...",
+#       "source": "연합뉴스",
+#       "published_at": "2026-03-16",
+#       "link": "https://example.com/article/1"
+#     }
+#   ],
+#   "total_count": 42,
+#   "page": 1,
+#   "page_size": 5
+# }
+
+###
+
+GET http://127.0.0.1:33333/news/search?keyword=경제&page=2&page_size=10
 Accept: application/json
 
 ###
 
-GET http://127.0.0.1:8000/hello/User
-Accept: application/json
+### ───────────────────────────────────────
+### Save Article
+### POST /news/saved
+### ───────────────────────────────────────
+
+POST http://127.0.0.1:33333/news/saved
+Content-Type: application/json
+
+{
+  "title": "삼성전자, AI 반도체 신제품 발표",
+  "link": "https://example.com/article/1",
+  "source": "연합뉴스",
+  "snippet": "삼성전자가 차세대 AI 반도체를 공개했다...",
+  "published_at": "2026-03-16"
+}
+
+# Expected Response 201 Created
+# {
+#   "id": 1,
+#   "title": "삼성전자, AI 반도체 신제품 발표",
+#   "link": "https://example.com/article/1",
+#   "source": "연합뉴스",
+#   "snippet": "삼성전자가 차세대 AI 반도체를 공개했다...",
+#   "content": "삼성전자는 16일 서울 서초구 본사에서 기자간담회를 열고...",
+#   "summary": "삼성전자가 차세대 AI 반도체 신제품을 공개했다. 해당 제품은 기존 대비 성능이 2배 향상됐으며, 전력 소비는 30% 줄었다. 회사는 올해 하반기 양산을 목표로 하고 있다.",
+#   "tags": ["삼성전자", "AI", "반도체", "신제품", "기술"],
+#   "confidence": 0.91,
+#   "published_at": "2026-03-16",
+#   "saved_at": "2026-03-16T10:00:00"
+# }
+
+###
+
+# Expected Response 409 Conflict (이미 저장된 기사)
+# {
+#   "detail": "이미 저장된 기사입니다."
+# }
+
+###
+
+POST http://127.0.0.1:33333/news/saved
+Content-Type: application/json
+
+{
+  "title": "OpenAI, GPT-5 출시 발표",
+  "link": "https://example.com/article/2",
+  "source": "테크크런치",
+  "snippet": "OpenAI가 GPT-5를 공식 발표했다...",
+  "published_at": "2026-03-15"
+}
 
 ###
