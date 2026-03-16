@@ -13,6 +13,7 @@ class SavedArticleMapper:
             snippet=orm.snippet,
             content=orm.content,
             summary=orm.summary,
+            tags=orm.tags or [],
             published_at=orm.published_at,
             saved_at=orm.saved_at,
         )
@@ -26,5 +27,6 @@ class SavedArticleMapper:
             snippet=entity.snippet,
             content=entity.content,
             summary=entity.summary,
+            tags=entity.tags,
             published_at=entity.published_at,
         )

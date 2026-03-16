@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 
 from app.domains.news_search.adapter.outbound.external.article_content_adapter import ArticleContentAdapter
 from app.domains.news_search.adapter.outbound.external.claude_summarization_adapter import ClaudeSummarizationAdapter
+from app.domains.news_search.adapter.outbound.external.claude_tag_extraction_adapter import ClaudeTagExtractionAdapter
 from app.domains.news_search.adapter.outbound.persistence.saved_article_repository_impl import SavedArticleRepositoryImpl
 from app.domains.news_search.application.request.save_article_request import SaveArticleRequest
 from app.domains.news_search.application.response.save_article_response import SaveArticleResponse
@@ -17,5 +18,6 @@ async def save_article(request: SaveArticleRequest, db: Session = Depends(get_db
     repository = SavedArticleRepositoryImpl(db)
     content_fetcher = ArticleContentAdapter()
     summarizer = ClaudeSummarizationAdapter()
-    usecase = SaveArticleUseCase(repository, content_fetcher, summarizer)
+    tag_extractor = ClaudeTagExtractionAdapter()
+    usecase = SaveArticleUseCase(repository, content_fetcher, summarizer, tag_extractor)
     return usecase.execute(request)

@@ -5,6 +5,7 @@ from app.domains.news_search.application.response.save_article_response import S
 from app.domains.news_search.application.usecase.article_content_port import ArticleContentPort
 from app.domains.news_search.application.usecase.saved_article_repository_port import SavedArticleRepositoryPort
 from app.domains.news_search.application.usecase.summarization_port import SummarizationPort
+from app.domains.news_search.application.usecase.tag_extraction_port import TagExtractionPort
 from app.domains.news_search.domain.entity.saved_article import SavedArticle
 
 
@@ -14,10 +15,12 @@ class SaveArticleUseCase:
         repository: SavedArticleRepositoryPort,
         content_fetcher: ArticleContentPort,
         summarizer: SummarizationPort,
+        tag_extractor: TagExtractionPort,
     ):
         self._repository = repository
         self._content_fetcher = content_fetcher
         self._summarizer = summarizer
+        self._tag_extractor = tag_extractor
 
     def execute(self, request: SaveArticleRequest) -> SaveArticleResponse:
         existing = self._repository.find_by_link(request.link)
@@ -26,6 +29,7 @@ class SaveArticleUseCase:
 
         content = self._content_fetcher.fetch_content(request.link)
         summary = self._summarizer.summarize(content) if content else None
+        tags = self._tag_extractor.extract_tags(request.title, content) if content else []
 
         article = SavedArticle(
             title=request.title,
@@ -35,6 +39,7 @@ class SaveArticleUseCase:
             published_at=request.published_at,
             content=content,
             summary=summary,
+            tags=tags,
         )
 
         saved = self._repository.save(article)
@@ -47,6 +52,7 @@ class SaveArticleUseCase:
             snippet=saved.snippet,
             content=saved.content,
             summary=saved.summary,
+            tags=saved.tags,
             published_at=saved.published_at,
             saved_at=saved.saved_at,
         )

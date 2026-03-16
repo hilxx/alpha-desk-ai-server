@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Optional
+from typing import List, Optional
 
 
 @dataclass
@@ -12,5 +12,6 @@ class SavedArticle:
     snippet: Optional[str] = None
     published_at: Optional[str] = None
     summary: Optional[str] = None
+    tags: List[str] = field(default_factory=list)
     id: Optional[int] = None
     saved_at: datetime = field(default_factory=datetime.now)

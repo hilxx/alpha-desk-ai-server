@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Optional
+from typing import List, Optional
 
 from pydantic import BaseModel
 
@@ -12,5 +12,6 @@ class SaveArticleResponse(BaseModel):
     snippet: Optional[str] = None
     content: str
     summary: Optional[str] = None
+    tags: List[str] = []
     published_at: Optional[str] = None
     saved_at: datetime
