@@ -3,6 +3,12 @@ from datetime import datetime
 import pytest
 
 from app.domains.news_search.domain.entity.saved_article import SavedArticle
+from tests.fakes.fake_summarization_adapter import FakeSummarizationAdapter
+
+
+@pytest.fixture
+def fake_summarizer() -> FakeSummarizationAdapter:
+    return FakeSummarizationAdapter()
 
 
 @pytest.fixture
