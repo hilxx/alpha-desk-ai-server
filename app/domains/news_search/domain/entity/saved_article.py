@@ -13,5 +13,6 @@ class SavedArticle:
     published_at: Optional[str] = None
     summary: Optional[str] = None
     tags: List[str] = field(default_factory=list)
+    confidence: Optional[float] = None
     id: Optional[int] = None
     saved_at: datetime = field(default_factory=datetime.now)

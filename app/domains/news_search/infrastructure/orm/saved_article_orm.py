@@ -1,7 +1,7 @@
 from datetime import datetime
 from hashlib import sha256
 
-from sqlalchemy import Column, DateTime, Integer, JSON, String, Text, event
+from sqlalchemy import Column, DateTime, Float, Integer, JSON, String, Text, event
 
 from app.infrastructure.database.session import Base
 
@@ -18,6 +18,7 @@ class SavedArticleORM(Base):
     content = Column(Text, nullable=False)
     summary = Column(Text, nullable=True)
     tags = Column(JSON, nullable=True)
+    confidence = Column(Float, nullable=True)
     published_at = Column(String(100), nullable=True)
     saved_at = Column(DateTime, default=datetime.now)
 

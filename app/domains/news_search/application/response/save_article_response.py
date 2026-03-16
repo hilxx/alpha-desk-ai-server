@@ -13,5 +13,6 @@ class SaveArticleResponse(BaseModel):
     content: str
     summary: Optional[str] = None
     tags: List[str] = []
+    confidence: Optional[float] = None
     published_at: Optional[str] = None
     saved_at: datetime

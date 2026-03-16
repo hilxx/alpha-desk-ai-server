@@ -14,6 +14,7 @@ class SavedArticleMapper:
             content=orm.content,
             summary=orm.summary,
             tags=orm.tags or [],
+            confidence=orm.confidence,
             published_at=orm.published_at,
             saved_at=orm.saved_at,
         )
@@ -28,5 +29,6 @@ class SavedArticleMapper:
             content=entity.content,
             summary=entity.summary,
             tags=entity.tags,
+            confidence=entity.confidence,
             published_at=entity.published_at,
         )
