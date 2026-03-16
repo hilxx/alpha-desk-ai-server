@@ -3,7 +3,9 @@ from datetime import datetime
 import pytest
 
 from app.domains.news_search.domain.entity.saved_article import SavedArticle
+from tests.fakes.fake_article_content_adapter import FakeArticleContentAdapter
 from tests.fakes.fake_confidence_scoring_adapter import FakeConfidenceScoringAdapter
+from tests.fakes.fake_saved_article_repository import FakeSavedArticleRepository
 from tests.fakes.fake_summarization_adapter import FakeSummarizationAdapter
 from tests.fakes.fake_tag_extraction_adapter import FakeTagExtractionAdapter
 
@@ -21,6 +23,16 @@ def fake_tag_extractor() -> FakeTagExtractionAdapter:
 @pytest.fixture
 def fake_confidence_scorer() -> FakeConfidenceScoringAdapter:
     return FakeConfidenceScoringAdapter()
+
+
+@pytest.fixture
+def fake_content_fetcher() -> FakeArticleContentAdapter:
+    return FakeArticleContentAdapter()
+
+
+@pytest.fixture
+def fake_repository() -> FakeSavedArticleRepository:
+    return FakeSavedArticleRepository()
 
 
 @pytest.fixture
