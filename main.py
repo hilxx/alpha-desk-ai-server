@@ -12,7 +12,15 @@ settings: Settings = get_settings()
 
 Base.metadata.create_all(bind=engine)
 
-app = FastAPI(debug=settings.debug)
+app = FastAPI(
+    debug=settings.debug,
+    title="Alpha Desk AI Server",
+    description=(
+        "뉴스 검색 및 기사 저장 API.\n\n"
+        "저장 시 Claude AI가 **요약(summary)**, **태그(tags)**, **신뢰도(confidence)**를 자동 생성합니다."
+    ),
+    version="0.1.0",
+)
 
 app.include_router(post_router)
 app.include_router(news_search_router)

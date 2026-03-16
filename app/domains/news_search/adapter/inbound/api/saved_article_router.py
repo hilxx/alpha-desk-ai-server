@@ -14,7 +14,20 @@ from app.infrastructure.database.session import get_db
 router = APIRouter(prefix="/news", tags=["news"])
 
 
-@router.post("/saved", response_model=SaveArticleResponse, status_code=201)
+@router.post(
+    "/saved",
+    response_model=SaveArticleResponse,
+    status_code=201,
+    summary="기사 저장",
+    description=(
+        "기사 URL을 받아 본문을 크롤링하고 저장합니다.\n\n"
+        "저장 시 Claude AI가 자동으로 **요약**, **태그**, **신뢰도**를 생성합니다.\n\n"
+        "- **409**: 이미 저장된 기사 (동일 URL)"
+    ),
+    responses={
+        409: {"description": "이미 저장된 기사입니다.", "content": {"application/json": {"example": {"detail": "이미 저장된 기사입니다."}}}},
+    },
+)
 async def save_article(request: SaveArticleRequest, db: Session = Depends(get_db)):
     repository = SavedArticleRepositoryImpl(db)
     content_fetcher = ArticleContentAdapter()
